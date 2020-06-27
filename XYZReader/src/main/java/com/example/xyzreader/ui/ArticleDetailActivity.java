@@ -9,6 +9,7 @@ import android.util.TypedValue;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowInsets;
+import android.widget.ProgressBar;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -41,6 +42,8 @@ public class ArticleDetailActivity extends AppCompatActivity
     private View mUpButtonContainer;
     private View mUpButton;
 
+    private ProgressBar mLoadingIndicator;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -50,6 +53,8 @@ public class ArticleDetailActivity extends AppCompatActivity
                             View.SYSTEM_UI_FLAG_LAYOUT_STABLE);
         }
         setContentView(R.layout.activity_article_detail);
+
+        mLoadingIndicator = (ProgressBar) findViewById(R.id.pb_loading_indicator);
 
         LoaderManager.getInstance(this).initLoader(0, null, this);
 
@@ -110,9 +115,19 @@ public class ArticleDetailActivity extends AppCompatActivity
         }
     }
 
+    public void showWorkInProgress() {
+        mLoadingIndicator.setVisibility(View.VISIBLE);
+    }
+
+    public void showWorkFinished() {
+        mLoadingIndicator.setVisibility(View.GONE);
+    }
+
+
     @NonNull
     @Override
     public Loader<Cursor> onCreateLoader(int i, Bundle bundle) {
+        showWorkInProgress();
         return ArticleLoader.newAllArticlesInstance(this);
     }
 
@@ -120,6 +135,7 @@ public class ArticleDetailActivity extends AppCompatActivity
     public void onLoadFinished(@NonNull androidx.loader.content.Loader<Cursor> loader, Cursor cursor) {
         mCursor = cursor;
         mPagerAdapter.notifyDataSetChanged();
+        showWorkFinished();
 
         // Select the start ID
         if (mStartId > 0) {

@@ -25,6 +25,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -160,6 +161,7 @@ public class ArticleDetailFragment extends Fragment implements
         return mRootView;
     }
 
+
     private void updateStatusBar() {
         int color = 0;
         if (mPhotoView != null && mTopInset != 0 && mScrollY > 0) {
@@ -258,6 +260,7 @@ public class ArticleDetailFragment extends Fragment implements
 
                         }
                     });
+            getActivityCast().showWorkFinished();
         } else {
             mRootView.setVisibility(View.GONE);
             titleView.setText("N/A");
@@ -269,6 +272,7 @@ public class ArticleDetailFragment extends Fragment implements
     @NonNull
     @Override
     public Loader<Cursor> onCreateLoader(int i, Bundle bundle) {
+        getActivityCast().showWorkInProgress();
         return ArticleLoader.newInstanceForItemId(getActivity(), mItemId);
     }
 
@@ -293,6 +297,7 @@ public class ArticleDetailFragment extends Fragment implements
 
     @Override
     public void onLoaderReset(@NonNull androidx.loader.content.Loader<Cursor> loader) {
+        getActivityCast().showWorkInProgress();
         mCursor = null;
         bindViews();
     }
