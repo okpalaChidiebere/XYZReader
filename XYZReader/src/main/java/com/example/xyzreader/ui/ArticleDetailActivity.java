@@ -115,6 +115,7 @@ public class ArticleDetailActivity extends AppCompatActivity
         }
     }
 
+    //Show progress bar
     public void showWorkInProgress() {
         mLoadingIndicator.setVisibility(View.VISIBLE);
     }
