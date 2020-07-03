@@ -17,12 +17,22 @@
 
 <resources>
 
-    <style name="Theme.Bacon" parent="@style/Theme.AppCompat.Light.NoActionBar">
-
+    <style name="AppTheme" parent="@style/Theme.AppCompat.Light.NoActionBar">
+        <!-- Customize your theme here. -->
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+        <item name="colorAccent">@color/colorAccent</item>
+        <item name="actionBarStyle">@style/XYZReaderAppBarStyle</item>
     </style>
 
-    <style name="Theme.Bacon.Detail">
+    <style name="AppTheme.Detail">
         <item name="android:statusBarColor">@android:color/transparent</item>
+    </style>
+
+    <!-- App bar style -->
+    <style name="XYZReaderAppBarStyle" parent="Widget.AppCompat.Light.ActionBar.Solid.Inverse">
+        <!-- Remove the shadow below the app bar -->
+        <item name="elevation">0dp</item>
     </style>
 
 </resources>
