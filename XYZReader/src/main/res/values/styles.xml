@@ -28,6 +28,7 @@
     <style name="AppTheme.Detail">
         <item name="android:statusBarColor">@android:color/transparent</item>
     </style>
+    <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
 
     <!-- App bar style -->
     <style name="XYZReaderAppBarStyle" parent="Widget.AppCompat.Light.ActionBar.Solid.Inverse">
