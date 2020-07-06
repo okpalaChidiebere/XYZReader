@@ -30,6 +30,7 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.app.ShareCompat;
 import androidx.fragment.app.Fragment;
@@ -69,7 +70,7 @@ public class ArticleDetailFragment extends Fragment implements
     private int mTopInset;
     private View mPhotoContainerView;
     private ImageView mPhotoView;
-    private CollapsingToolbarLayout mCollapsingToolbar;
+    private Toolbar mToolbar;
     private int mScrollY;
     private boolean mIsCard = false;
     private int mStatusBarFullOpacityBottom;
@@ -133,21 +134,7 @@ public class ArticleDetailFragment extends Fragment implements
             Bundle savedInstanceState) {
         mRootView = inflater.inflate(R.layout.fragment_article_detail, container, false);
 
-        final Toolbar toolbar = (Toolbar) mRootView.findViewById(R.id.toolbar);
-
-        final View titleLayout = mRootView.findViewById(R.id.layout_title);
-        titleLayout.post(new Runnable() {
-            @Override
-            public void run() {
-                CollapsingToolbarLayout.LayoutParams layoutParams = (CollapsingToolbarLayout.LayoutParams) toolbar.getLayoutParams();
-                layoutParams.height = titleLayout.getHeight();
-                toolbar.setLayoutParams(layoutParams);
-            }
-        });
-
         mPhotoView = (ImageView) mRootView.findViewById(R.id.photo);
-        mCollapsingToolbar =
-                (CollapsingToolbarLayout) mRootView.findViewById(R.id.collapsing_toolbar);
         //mPhotoContainerView = mRootView.findViewById(R.id.photo_container);
 
         mStatusBarColorDrawable = new ColorDrawable(0);
@@ -224,9 +211,22 @@ public class ArticleDetailFragment extends Fragment implements
         if (mCursor != null) {
             mRootView.setAlpha(0);
             mRootView.setVisibility(View.VISIBLE);
+
+            mToolbar = (Toolbar) mRootView.findViewById(R.id.toolbar);
+           ((AppCompatActivity)getActivity()).setSupportActionBar(mToolbar);
+            getActivity().setTitle(null);
+            final View titleLayout = mRootView.findViewById(R.id.layout_title);
+            titleLayout.post(new Runnable() {
+                @Override
+                public void run() {
+                    CollapsingToolbarLayout.LayoutParams layoutParams = (CollapsingToolbarLayout.LayoutParams) mToolbar.getLayoutParams();
+                    layoutParams.height = titleLayout.getHeight();
+                    mToolbar.setLayoutParams(layoutParams);
+                }
+            });
+
             mRootView.animate().alpha(1);
             //mCollapsingToolbar.setTitle(mCursor.getString(ArticleLoader.Query.TITLE));
-            mCollapsingToolbar.setTitle(null);
             titleView.setText(mCursor.getString(ArticleLoader.Query.TITLE));
             Date publishedDate = parsePublishedDate();
             if (!publishedDate.before(START_OF_EPOCH.getTime())) {
